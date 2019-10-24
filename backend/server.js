@@ -3,12 +3,8 @@ const express = require('express'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
     logger = require('morgan'),
-    authRoutes = require('./routes/authRoutes'),
-    userRoutes = require('./routes/userRoutes'),
-    ticketRoutes = require('./routes/ticketRoutes'),
-    eventRoutes = require('./routes/eventRoutes'),
-    volunteerRoutes = require('./routes/volunteerRoutes');
-
+    axios = require('axios');
+    ethRoutes=require('./routes/ethRoutes')
 const app = express();
 // const doit = require('./seed');
 //=======================
@@ -26,14 +22,14 @@ app.use(logger('dev'));
 let mongo_uri;
 
 if (process.env.LOCALDEV === 'true') {
-    // mongo_uri = 'mongodb://localhost/perfest';
+    mongo_uri = 'mongodb://localhost/perfest';
 } else {
     mongo_uri = process.env.DATABASE_URL;
 }
 
-mongoose.connect(mongo_uri, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false })
-    .then(() => console.log("Database connected"))
-    .catch(console.log);
+// mongoose.connect(mongo_uri, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false })
+//     .then(() => console.log("Database connected"))
+//     .catch(console.log);
 // doit();
 //=======================
 // ALLOW-CORS
@@ -50,16 +46,28 @@ app.use(function (req, res, next) {
 // ROUTES
 //=======================
 
+// recieve sms and call the related route
 
 //=======================
 // STARTING THE SERVER
 //=======================
-
+app.use('/getSms',ethRoutes);
 app.get('/', (req, res) => {
-    res.send('Works')
+    console.log(req.body)
+    res.send("helllo fellas")
 });
 
-const port = process.env.PORT || 3001;
+// http.createServer(app).listen(1337, () => {
+//   console.log('Express server listening on port 1337');
+// });
+
+const port = process.env.PORT || 5555;
 app.listen(port, () => {
     console.log('App listening on port ' + port);
+    // bot.on('message', (msg) => {
+    //     console.log(msg)
+    //     const chatId = msg.chat.id;
+    //     bot.sendMessage(chatId, 'Received your message');
+    // });
+    
 });

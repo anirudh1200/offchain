@@ -1,5 +1,5 @@
 var api = require('etherscan-api').init(process.env.ETHERSCANAPI);
-var balance = api.account.balance('0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae');
+var balance = api.account.balance('address here');
 balance.then(function(balanceData){
   console.log(balanceData);
 });

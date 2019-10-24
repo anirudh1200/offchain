@@ -10,19 +10,10 @@ var abiArray = JSON.parse(fs.readFileSync('mycoin.json', 'utf-8'));
 let count;
 // console.log(count)
 // console.log(abiArray)
-var contractAddress = "0xEbF71C54b7Fc87F120B0369012f3C1a40D8ae559";
+var contractAddress = "contract address here";
 // var contract =new web3.eth.contract(abiArray,contractAddress);
 var contract = new web3.eth.Contract(abiArray, contractAddress)
-// console.log(contract)
-// var rawTransaction = {
-//     "from": "0x3c250227150438ed372F93Bb01C51785281d9DEF",
-//     "nonce": web3.utils.toHex(count),
-//     "gas": 200000,
-//     "to": contractAddress,
-//     "value": "0x0",
-//     "data": contract.methods.balanceOf("0x780b7F58b201ac352fBD22654d04D82926386aF8"),
-//     "chainId": 0x03
-// };
+
 web3.eth.getTransactionCount("0x3c250227150438ed372F93Bb01C51785281d9DEF").then((_nonce) => {
     console.log(_nonce)
     var gas = 0
@@ -38,18 +29,17 @@ web3.eth.getTransactionCount("0x3c250227150438ed372F93Bb01C51785281d9DEF").then(
 
     })
     var rawTransaction = {
-        "from": new Buffer.from('3c250227150438ed372f93bb01c51785281d9def', 'hex'),
+        "from": new Buffer.from('user address', 'hex'),
         "nonce": _nonce,
         "gasPrice": 2000000000,
         "gasLimit": 67000,
-        "to": new Buffer.from("EbF71C54b7Fc87F120B0369012f3C1a40D8ae559", 'hex'),
+        "to": new Buffer.from("another user address", 'hex'),
         "value": 0,
-        "data": contract.methods.balanceOf("0x3c250227150438ed372f93bb01c51785281d9def").encodeABI(),
-        // "data": contract.methods.balanceOf("0x3c250227150438ed372F93Bb01C51785281d9DEF").encodeABI(),
+        "data": contract.methods.balanceOf("user address").encodeABI(),
         "chainId": 3
     };
     console.log("raw", rawTransaction)
-    let privKey = new Buffer.from('2562fe54387b29ad63201f64f64c54647a58534b8b65d45e33efc057581bec64', 'hex');
+    let privKey = new Buffer.from('user private key', 'hex');
     let tx = new Tx(rawTransaction);
     tx.sign(privKey);
     var serializedTx = tx.serialize();
@@ -60,21 +50,19 @@ web3.eth.getTransactionCount("0x3c250227150438ed372F93Bb01C51785281d9DEF").then(
 exports.getBalance = async (req, res) => {
 
     var contract = new web3.eth.Contract(abiArray, contractAddress)
-    web3.eth.getTransactionCount("0x3c250227150438ed372F93Bb01C51785281d9DEF").then((_nonce) => {
+    web3.eth.getTransactionCount("user address").then((_nonce) => {
     
         var rawTransaction = {
-            "from": new Buffer.from('3c250227150438ed372f93bb01c51785281d9def', 'hex'),
+            "from": new Buffer.from('USER ADDRESS', 'hex'),
             "nonce": _nonce,
             "gasPrice": 2000000000,
             "gasLimit": 67000,
-            "to": new Buffer.from("EbF71C54b7Fc87F120B0369012f3C1a40D8ae559", 'hex'),
+            "to": new Buffer.from("another user ADDRESS", 'hex'),
             "value": 0,
-            "data": contract.methods.balanceOf("0x3c250227150438ed372f93bb01c51785281d9def").encodeABI(),
-            // "data": contract.methods.balanceOf("0x3c250227150438ed372F93Bb01C51785281d9DEF").encodeABI(),
+            "data": contract.methods.balanceOf("user addess").encodeABI(),
             "chainId": 3
         };
-        // console.log("raw", rawTransaction)
-        let privKey = new Buffer.from('2562fe54387b29ad63201f64f64c54647a58534b8b65d45e33efc057581bec64', 'hex');
+        let privKey = new Buffer.from('private key', 'hex');
         let tx = new Tx(rawTransaction);
         tx.sign(privKey);
         var serializedTx = tx.serialize();
